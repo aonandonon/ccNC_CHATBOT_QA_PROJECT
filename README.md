@@ -16,7 +16,7 @@ V1 단계의 프레임워크는 멀티 폴더 구조로 설계되어 있으며, 
 ccNC_CHATBOT_QA_PROJECT/
 ├── chatbot_server/          # 챗봇 목업 서버 및 대시보드
 │   ├── V1/
-│   └── .env.example         # 환경변수 템플릿 (실행시 .env로 파일명 변경 필요)
+│   └── .env.example         # 환경변수 설정 템플릿 (.env로 복사하여 사용)
 └── qa_automation/           # QA 자동화 테스트 스크립트 및 산출물
     ├── json_conversion.py   # 로그/데이터 파싱 및 변환 스크립트
     └── V1/
