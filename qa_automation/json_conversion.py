@@ -2,7 +2,7 @@ import pandas as pd
 import json
 
 # 1. 엑셀 파일 읽기 (상대 경로 반영)
-df = pd.read_excel("../docs_and_templates/ccNC 웹매뉴얼 챗봇_TC_V1.xlsx", sheet_name="자동화")
+df = pd.read_excel("V2/docs_and_templates/ccNC 웹매뉴얼 챗봇_TC_V2.xlsx", sheet_name="자동화")
 
 json_data = []
 

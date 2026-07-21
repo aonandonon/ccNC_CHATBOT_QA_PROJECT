@@ -1,0 +1,669 @@
+[
+  {
+    "tc_id": "TC-01",
+    "method": "POST",
+    "url": "/api/v1/infotainment/control",
+    "prompt": "DMB 좀 켜줘",
+    "expected_status": 200,
+    "required_kws": [
+      "실행",
+      "재생",
+      "켜겠습니다",
+      "켤게요"
+    ],
+    "banned_kws": [
+      "제한",
+      "불가"
+    ]
+  },
+  {
+    "tc_id": "TC-02",
+    "method": "POST",
+    "url": "/api/v1/infotainment/control",
+    "prompt": "방금 화면 켠 거 그대로 유지하고 볼륨만 줄여줘.",
+    "expected_status": 200,
+    "required_kws": [
+      "제한",
+      "불가",
+      "없습니다"
+    ],
+    "banned_kws": [
+      "알겠습니다"
+    ]
+  },
+  {
+    "tc_id": "TC-03",
+    "method": "GET",
+    "url": "/api/v1/car/history?type=hipass",
+    "prompt": "지난달 하이패스 통행료 총 얼마 나왔어?",
+    "expected_status": 200,
+    "required_kws": [
+      "없습니다",
+      "확인되지",
+      "이력이",
+      "존재하지"
+    ],
+    "banned_kws": [
+      "원",
+      "결제되었습니다",
+      "사용하셨습니다",
+      "이용 하셨"
+    ]
+  },
+  {
+    "tc_id": "TC-04",
+    "method": "POST",
+    "url": "/api/v1/payment/order",
+    "prompt": "스타벅스에서 아이스아메리카노 주문해줘",
+    "expected_status": 200,
+    "required_kws": [
+      "미등록",
+      "제한",
+      "불가",
+      "않았으니",
+      "않아서",
+      "않으므로",
+      "등록해",
+      "등록하",
+      "등록한"
+    ],
+    "banned_kws": [
+      "알겠습니다",
+      "주문 완료",
+      "결제 완료"
+    ]
+  },
+  {
+    "tc_id": "TC-05",
+    "method": "POST",
+    "url": "/api/v1/payment/order",
+    "prompt": "스타벅스에서 아이스아메리카노 주문해줘",
+    "expected_status": 200,
+    "required_kws": [
+      "네",
+      "알겠",
+      "주문",
+      "결제",
+      "완료"
+    ],
+    "banned_kws": [
+      "불가",
+      "미등록",
+      "하지 못",
+      "할 수 없"
+    ]
+  },
+  {
+    "tc_id": "TC-06",
+    "method": "POST",
+    "url": "/api/v1/navigation/search",
+    "prompt": "신호 안걸리는 길로 안내해줘",
+    "expected_status": 200,
+    "required_kws": [
+      "지원하지 않는",
+      "미지원",
+      "없는"
+    ],
+    "banned_kws": [
+      "알겠습니다",
+      "네",
+      "안내 할게요",
+      "설정 할게요"
+    ]
+  },
+  {
+    "tc_id": "TC-07",
+    "method": "GET",
+    "url": "/api/v1/navigation/search?prompt=우주정거장",
+    "prompt": "판교역 근처에 있는 우주정거장으로 안내해줘",
+    "expected_status": 404,
+    "required_kws": [
+      "찾을 수",
+      "없습니다",
+      "미존재",
+      "없는",
+      "없지만",
+      "않지만",
+      "존재하지 않는"
+    ],
+    "banned_kws": [
+      "안내를",
+      "시작합니다",
+      "도착",
+      "분 소요"
+    ]
+  },
+  {
+    "tc_id": "TC-08",
+    "method": "POST",
+    "url": "/api/v1/user/profile",
+    "prompt": "사용자 프로필 3명 등록해줘",
+    "expected_status": 200,
+    "required_kws": [
+      "불가",
+      "까지",
+      "최대"
+    ],
+    "banned_kws": [
+      "네",
+      "알겠습니다",
+      "3번째"
+    ]
+  },
+  {
+    "tc_id": "TC-09",
+    "method": "POST",
+    "url": "/api/v1/navigation/chat",
+    "prompt": "그래서 아까 하이패스 이용내역 얼마라고 했지?",
+    "expected_status": 200,
+    "required_kws": [
+      "없습니다",
+      "확인되지",
+      "이력이",
+      "존재하지"
+    ],
+    "banned_kws": [
+      "결제되었",
+      "사용하셨",
+      "안내해드"
+    ]
+  },
+  {
+    "tc_id": "TC-10",
+    "method": "POST",
+    "url": "/api/v1/navigation/chat",
+    "prompt": "등록된 강남맛집을 판교맛집으로 바꾸려면 어떻게 하지?",
+    "expected_status": 200,
+    "required_kws": [
+      "오른쪽",
+      "편집",
+      "버튼"
+    ],
+    "banned_kws": [
+      "지원하지 않는",
+      "모르",
+      "알 수 없는",
+      "없습니다"
+    ]
+  },
+  {
+    "tc_id": "TC-11",
+    "method": "POST",
+    "url": "/api/v1/navigation/chat",
+    "prompt": "주변 충전소 검색하려면 어딜 눌러야 돼?",
+    "expected_status": 200,
+    "required_kws": [
+      "충전소 목록",
+      "누르시면",
+      "진입하시면",
+      "Electric Vehicle",
+      "충전소 아이콘"
+    ],
+    "banned_kws": [
+      "지원하지 않는",
+      "모르",
+      "알 수 없는",
+      "없습니다"
+    ]
+  },
+  {
+    "tc_id": "TC-12",
+    "method": "DELETE",
+    "url": "/api/v1/user/home",
+    "prompt": "즐겨찾기에 등록된 우리집 삭제해줘",
+    "expected_status": 500,
+    "required_kws": [
+      "실패",
+      "다시",
+      "원활",
+      "않아"
+    ],
+    "banned_kws": [
+      "삭제되었습니다",
+      "완료되었습니다",
+      "지워졌습니다"
+    ]
+  },
+  {
+    "tc_id": "TC-13",
+    "method": "POST",
+    "url": "/api/v1/system/update/check",
+    "prompt": "현재 가장 최신 업데이트 상태인데, 어제 나온 최신 버전으로 업데이트 해줘",
+    "expected_status": 200,
+    "required_kws": [
+      "이미",
+      "최신"
+    ],
+    "banned_kws": [
+      "업데이트를 시작",
+      "진행하겠",
+      "바로"
+    ]
+  },
+  {
+    "tc_id": "TC-14",
+    "method": "POST",
+    "url": "/api/v1/navigation/chat",
+    "prompt": "경유지 삭제하고 목적지까지 빠른길로 안내해줘",
+    "expected_status": 200,
+    "required_kws": [
+      "없습니다",
+      "존재하지"
+    ],
+    "banned_kws": [
+      "네",
+      "삭제할게",
+      ""
+    ]
+  },
+  {
+    "tc_id": "TC-15",
+    "method": "POST",
+    "url": "/api/v1/navigation/chat",
+    "prompt": "블루투스 기기가 연결이 안 되는데 원인이랑 해결 방법 좀 다 알려줘",
+    "expected_status": 200,
+    "required_kws": [
+      "실행 필요",
+      "기능 오류",
+      "배터리",
+      "등록을 해제",
+      "껐다가"
+    ],
+    "banned_kws": [
+      "외에는 없습니다",
+      "한 가지만",
+      "알 수 없습니다",
+      "잠시후"
+    ]
+  },
+  {
+    "tc_id": "TC-16",
+    "method": "DELETE",
+    "url": "/api/v1/navigation/history",
+    "prompt": "최근 목적지를 전체 삭제하면 현재 목적지도 삭제되나요?",
+    "expected_status": 200,
+    "required_kws": [
+      "유지",
+      "않습니다",
+      "아니요",
+      "아닙니다"
+    ],
+    "banned_kws": [
+      "네",
+      "모두",
+      "현재 목적지도",
+      "전부"
+    ]
+  },
+  {
+    "tc_id": "TC-17",
+    "method": "POST",
+    "url": "/api/v1/navigation/route/options",
+    "prompt": "어린이 보호구역 너무 싫어. 더현대 서울로 안내해줘",
+    "expected_status": 200,
+    "required_kws": [
+      "어린이 보호 구역",
+      "우회",
+      "안내"
+    ],
+    "banned_kws": [
+      "불가합니다",
+      "지원하지",
+      "그냥",
+      "최단 경로",
+      "빠른 경로",
+      "추천 경로"
+    ]
+  },
+  {
+    "tc_id": "TC-18",
+    "method": "GET",
+    "url": "/api/v1/navigation/search?prompt=30자가넘는아주아주긴글자",
+    "prompt": "ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ 거기로 안내해줘",
+    "expected_status": 200,
+    "required_kws": [
+      "다시",
+      "말씀해",
+      "입력해",
+      "알려주"
+    ],
+    "banned_kws": [
+      "길어",
+      "깁니다",
+      "초과",
+      "글자 수"
+    ]
+  },
+  {
+    "tc_id": "TC-19",
+    "method": "POST",
+    "url": "/api/v1/navigation/route/complex",
+    "prompt": "송도로 갈건데 톨게이트는 거치지 않고, 고속도로 위주 경로인데, 통행료는 적게 나오고 어린이 보호 구역을 우회하는 경로로 안내해줘",
+    "expected_status": 200,
+    "required_kws": [
+      "어렵습",
+      "추천",
+      "한번에",
+      "하나씩",
+      "한 번",
+      "불가능",
+      "동시에"
+    ],
+    "banned_kws": [
+      "알겠습니다",
+      "모두 만족하는"
+    ]
+  },
+  {
+    "tc_id": "TC-20",
+    "method": "GET",
+    "url": "/api/v1/user/privacy/status",
+    "prompt": "발레 모드 사용하면 진짜 개인정보 보호되는거 맞아??",
+    "expected_status": 200,
+    "required_kws": [
+      "보호",
+      "불가능",
+      "모니터",
+      "버튼"
+    ],
+    "banned_kws": [
+      "아마",
+      "확실하지",
+      "노출될 수도",
+      "글쎄요",
+      "가급적"
+    ]
+  },
+  {
+    "tc_id": "TC-21",
+    "method": "GET",
+    "url": "/api/v1/dashcam/records/parking",
+    "prompt": "주차 중에 누가 내 차를 박고간 것 같은데 영상 어디서 봐야돼?",
+    "expected_status": 200,
+    "required_kws": [
+      "주차",
+      "녹화",
+      "영상",
+      "확인"
+    ],
+    "banned_kws": [
+      "제한",
+      "불가",
+      "지원하지",
+      "삭제되었습니다"
+    ]
+  },
+  {
+    "tc_id": "TC-22",
+    "method": "POST",
+    "url": "/api/v1/navigation/search",
+    "prompt": "부산역까지 30분만에 도착하는 길로 안내해줘",
+    "expected_status": 200,
+    "required_kws": [
+      "불가능",
+      "어렵습니",
+      "시간 내",
+      "불가",
+      "어려워"
+    ],
+    "banned_kws": [
+      "안내를 시작",
+      "안내할게",
+      "분 만에"
+    ]
+  },
+  {
+    "tc_id": "TC-23",
+    "method": "POST",
+    "url": "/api/v1/navigation/search",
+    "prompt": "부산역까지 30분만에 도착하는 길로 안내해줘",
+    "expected_status": 200,
+    "required_kws": [
+      "안내를 시작",
+      "안내할게",
+      "경로로 안내",
+      "도착 예정",
+      "빠른"
+    ],
+    "banned_kws": [
+      "불가능",
+      "어렵습니",
+      "시간 내",
+      "불가",
+      "어려워",
+      "!안내",
+      "!경로"
+    ]
+  },
+  {
+    "tc_id": "TC-24",
+    "method": "POST",
+    "url": "/api/v1/navigation/settings/stock",
+    "prompt": "이 도로는 대체 언제까지 공사하는거야? 롯데백화점으로 안내해줘",
+    "expected_status": 200,
+    "required_kws": [
+      "롯데백화점",
+      "안내",
+      "언제",
+      "공사"
+    ],
+    "banned_kws": [
+      "모릅니다",
+      "확인할 수 없습니다",
+      "안내 불가"
+    ]
+  },
+  {
+    "tc_id": "TC-25",
+    "method": "GET",
+    "url": "/api/v1/navigation/settings/stock",
+    "prompt": "실시간 주가 알림 시스템이 있다던데 어디서 설정 하는거야?",
+    "expected_status": 404,
+    "required_kws": [
+      "미지원",
+      "없는",
+      "어렵",
+      "죄송",
+      "지원하지 않는"
+    ],
+    "banned_kws": [
+      "네",
+      "할게요",
+      "켤게요",
+      "켰습니다",
+      "서 할 수"
+    ]
+  },
+  {
+    "tc_id": "TC-26",
+    "method": "POST",
+    "url": "/api/v1/infotainment/streaming",
+    "prompt": "나 멜론 구독중인데 왜 차에서는 스트리밍이 안되는거야?",
+    "expected_status": 200,
+    "required_kws": [
+      "마이 현대",
+      "스트리밍 데이터",
+      "가입",
+      "요금제"
+    ],
+    "banned_kws": [
+      "가능합. 됩니다. 시작할",
+      "시작합",
+      "!구독",
+      "!요금제"
+    ]
+  },
+  {
+    "tc_id": "TC-27",
+    "method": "POST",
+    "url": "/api/v1/navigation/chat",
+    "prompt": "오늘 날씨도 꿀꿀한데 재밌는 얘기 좀 해줘",
+    "expected_status": 200,
+    "required_kws": [
+      "재밌는",
+      "재미있는",
+      "기분",
+      "안전",
+      "운전",
+      "얘기"
+    ],
+    "banned_kws": [
+      "경로로 안내",
+      "탐색을 시작",
+      "알 수 없",
+      "!얘기",
+      "!기분"
+    ]
+  },
+  {
+    "tc_id": "TC-28",
+    "method": "POST",
+    "url": "/api/v1/navigation/chat",
+    "prompt": "펫 모드만 실행하면 아무 버튼도 안눌리는데 이거 고장난거지? 어떻게 고쳐야돼?!",
+    "expected_status": 200,
+    "required_kws": [
+      "고장이",
+      "정상",
+      "사양",
+      "안전을"
+    ],
+    "banned_kws": [
+      "고장 접수",
+      "서비스 센터",
+      "정비창",
+      "수리",
+      "!정상",
+      "!사양"
+    ]
+  },
+  {
+    "tc_id": "TC-29",
+    "method": "POST",
+    "url": "/api/v1/navigation/chat",
+    "prompt": "목적지까지 도착하려면 1시간 걸리는데 위치 공유 몇 분 동안 되는거지?",
+    "expected_status": 200,
+    "required_kws": [
+      "30분",
+      "더",
+      "더해",
+      "90분",
+      "1시간 30분"
+    ],
+    "banned_kws": [
+      "60분 동안",
+      "1시간 동안",
+      "알 수 없습니다",
+      "!30분"
+    ]
+  },
+  {
+    "tc_id": "TC-30",
+    "method": "POST",
+    "url": "/api/v1/navigation/chat",
+    "prompt": "8월 31일 일정 장소로 안내해줘",
+    "expected_status": 200,
+    "required_kws": [
+      "장소가",
+      "등록되어",
+      "없습니다",
+      "말씀해"
+    ],
+    "banned_kws": [
+      "안내를 시작",
+      "경로로 안내",
+      "도착 예정",
+      "!없습니다"
+    ]
+  },
+  {
+    "tc_id": "TC-31",
+    "method": "POST",
+    "url": "/api/v1/navigation/weather",
+    "prompt": "목적지 날씨 알려줘",
+    "expected_status": 403,
+    "required_kws": [
+      "만료",
+      "재가입",
+      "블루링크"
+    ],
+    "banned_kws": [
+      "!만료",
+      "!블루링크",
+      "알려드릴게요"
+    ]
+  },
+  {
+    "tc_id": "TC-32",
+    "method": "POST",
+    "url": "/api/v1/navigation/chat",
+    "prompt": "결제 비밀번호 5회 틀렸는데 이거 어떻게 재설정해?",
+    "expected_status": 200,
+    "required_kws": [
+      "마이",
+      "월렛",
+      "재설정",
+      "메뉴로"
+    ],
+    "banned_kws": [
+      "▶",
+      "화살표",
+      "알 수 없는 오류",
+      "!마이",
+      "!월렛"
+    ]
+  },
+  {
+    "tc_id": "TC-33",
+    "method": "POST",
+    "url": "/api/v1/vehicle/aircon",
+    "prompt": "지금 너무 더워서 에어컨 안 켜면 죽을 것 같아",
+    "expected_status": 200,
+    "required_kws": [
+      "에어컨",
+      "가동",
+      "설정"
+    ],
+    "banned_kws": [
+      "종료",
+      "끕니다",
+      "정지",
+      "!가동"
+    ]
+  },
+  {
+    "tc_id": "TC-34",
+    "method": "POST",
+    "url": "/api/v1/navigation/search",
+    "prompt": "부산역 근처 맛집 알려줘",
+    "expected_status": 200,
+    "required_kws": [
+      "부산역",
+      "맛집",
+      "추천"
+    ],
+    "banned_kws": [
+      "검색할 수 없습니다",
+      "결과를 찾지",
+      "알 수 없는 오류",
+      "!맛집"
+    ]
+  },
+  {
+    "tc_id": "TC-35",
+    "method": "POST",
+    "url": "/api/v1/navigation/route",
+    "prompt": "거기로 안내 해줘",
+    "expected_status": 200,
+    "required_kws": [
+      "목적지",
+      "설정",
+      "경로"
+    ],
+    "banned_kws": [
+      "위치를 알 수",
+      "어디인지",
+      "등록된 장소가",
+      "!경로"
+    ]
+  }
+]

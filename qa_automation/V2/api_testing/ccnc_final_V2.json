@@ -1,0 +1,108 @@
+{
+  "info": {
+    "_postman_id": "e898be56-1616-4fc3-8f92-5a8350b8c16c",
+    "name": "My Collection",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55520948",
+    "_collection_link": "https://go.postman.co/collection/55520948-e898be56-1616-4fc3-8f92-5a8350b8c16c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "http://127.0.0.1:8000{{url}}",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// 1. 매핑 데이터 파일에서 메소드와 URL을 읽어옵니다.",
+              "const currentMethod = pm.iterationData.get(\"method\");",
+              "const currentUrl = pm.iterationData.get(\"url\");",
+              "",
+              "// 2. HTTP 메소드를 동적으로 변경합니다.",
+              "if (currentMethod) {",
+              "    pm.request.method = currentMethod;",
+              "}",
+              "",
+              "// 💡 3. 주소창 오류 방지: URL에 ?(쿼리 스트링)이 포함되어 있다면 포스트맨 규격에 맞게 동적 재조립",
+              "if (currentUrl) {",
+              "    pm.request.url.update(`http://127.0.0.1:8000${currentUrl}`);",
+              "}",
+              "",
+              "// 4. GET이나 DELETE라면 요청 Body를 완전히 비워줍니다.",
+              "if (currentMethod === \"GET\" || currentMethod === \"DELETE\") {",
+              "    pm.request.body = undefined;",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. 상태 코드 검증",
+              "const expectedStatus = pm.iterationData.get(\"expected_status\");",
+              "pm.test(`[${pm.iterationData.get(\"tc_id\")}] HTTP 상태 코드가 ${expectedStatus}인지 검증`, function () {",
+              "    pm.response.to.have.status(expectedStatus);",
+              "});",
+              "",
+              "const responseText = pm.response.text();",
+              "",
+              "console.log(`[${pm.iterationData.get(\"tc_id\")}] 실제 챗봇 답변:`, responseText);",
+              "",
+              "// 2. 필수 키워드 검증 (JSON의 배열 데이터를 바로 가져와서 검증)",
+              "const requiredKws = pm.iterationData.get(\"required_kws\") || [];",
+              "if (requiredKws.length > 0) {",
+              "    pm.test(`[${pm.iterationData.get(\"tc_id\")}] 필수 키워드 [${requiredKws}] 중 하나 이상 포함되었는지 검증`, function () {",
+              "        const hasRequired = requiredKws.some(word => responseText.includes(word));",
+              "        pm.expect(hasRequired).to.be.true;",
+              "    });",
+              "}",
+              "",
+              "// 3. 금지 키워드 검증",
+              "const bannedKws = pm.iterationData.get(\"banned_kws\") || [];",
+              "if (bannedKws.length > 0) {",
+              "    pm.test(`[${pm.iterationData.get(\"tc_id\")}] 금지 키워드 [${bannedKws}]가 포함되지 않았는지 검증`, function () {",
+              "        bannedKws.forEach(word => {",
+              "            pm.expect(responseText).to.not.include(word);",
+              "        });",
+              "    });",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"prompt\": \"{{prompt}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000{{url}}",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000{{url}}"
+        }
+      },
+      "response": []
+    }
+  ]
+}
