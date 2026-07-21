@@ -33,13 +33,37 @@ ccNC_CHATBOT_QA_PROJECT/
 V2: 예외 시나리오 확장 및 LangChain / RAG 구조 기반 데이터 무결성 검증 추가
 V3-V4: RAG 할루시네이션(환각) 방지 시나리오 테스트 및 QA 자동화 파이프라인 고도화
 
+
+**## 📂 프로젝트 구조 (Project Structure)**
+
+ccNC_CHATBOT_QA_PROJECT/
+├── chatbot_server/                # 챗봇 백엔드 서버 및 프론트엔드 대시보드
+│   ├── V1/                        # V1 버전 (Rule-based / Mock Backend)
+│   │   ├── app_V1.py
+│   │   └── dashboard.py
+│   ├── V2/                        # V2 버전 (LangChain RAG 파이프라인 엔진)
+│   │   ├── app_V2.py              # FastAPI Dual-Routing 및 RAG 엔진 백엔드
+│   │   ├── dashboard_V2.py        # Streamlit V2 인터랙티브 대시보드
+│   │   └── parsed_ccnc_manual.json # ccNC 웹 매뉴얼 파싱 지식 베이스 (107개 HTML 기반)
+│   └── .env.example               # 중앙 환경변수 설정 템플릿 (.env로 복사하여 사용)
+└── qa_automation/                 # QA 자동화 테스트 스크립트 및 검증 산출물
+    ├── json_conversion.py         # Newman 결함 리포트 JSON ➡️ Excel/HTML 자동 변환 스크립트
+    ├── V1/                        # V1 테스트 스크립트 및 결과 리포트
+    │   ├── api_testing/           # Postman/Newman 기반 API 자동화 테스트
+    │   ├── ui_testing/            # Playwright 기반 UI E2E 테스트 및 결함 캡처
+    │   └── docs_and_templates/    # ccNC 웹매뉴얼 챗봇_TC_V1.xlsx (테스트케이스)
+    └── V2/                        # V2 RAG 검증 스크립트 및 자동화 산출물
+        ├── api_testing/           # V2 RAG 검증용 TC-01~TC-35 실행 및 Newman 리포트
+        ├── ui_testing/            # Playwright V2 검증 (35개 스크린샷 & 99_final_audit_report_V2.png)
+        └── docs_and_templates/    # ccNC 웹매뉴얼 챗봇_TC_V2.xlsx (개선된 TC 및 평가 결과)
+
 ## 🛠️ V2 RAG Engine Architecture & Key Features
 
-현대 ccNC 웹 매뉴얼 데이터 기반의 **고도화된 RAG(Retrieval-Augmented Generation) 파이프라인**을 구축하여 환각(Hallucination) 현상을 극복하고 정밀한 검증 환경을 구현했습니다.
+현대 ccNC 웹 매뉴얼 데이터 기반의 **고도화된 RAG 파이프라인**을 구축하여 환각(Hallucination) 현상을 극복하고 정밀한 검증 환경을 구현했습니다.
 
 ### 1. Data Pipeline & Knowledge Base
 * **웹 매뉴얼 파싱**: ccNC 공식 웹 매뉴얼 107개 HTML의 `<p>`, `<li>` 태그를 정제하여 `parsed_ccnc_manual.json` 데이터셋 구축
-* **Context 보존 청킹 (Chunking Strategy)**: 일반적인 `TextSplitter` 사용 시 문맥 단절이 발생하는 문제를 방지하기 위해 **1개 카테고리/기능당 1개의 `Document`로 완벽 맵핑**
+* **Context 보존 청킹 (Chunking Strategy)**: 일반적인 `TextSplitter` 사용 시 문맥 단절이 발생하는 문제를 방지하기 위해 **1개 카테고리/기능당 1개의 `Document`로 맵핑**
   * 각 문서에 `카테고리명`, `상세 기능`, `주의 및 제약 사항(Warnings)`을 구조화하여 메타데이터와 함께 저장
 
 ### 2. RAG Stack & Models
