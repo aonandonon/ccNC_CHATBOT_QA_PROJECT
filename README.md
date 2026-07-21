@@ -43,17 +43,48 @@ ccNC_CHATBOT_QA_PROJECT/
         └── docs_and_templates/     # ccNC 웹매뉴얼 챗봇_TC_V2.xlsx
 
 🚀 단계별 검증 성과 & 고도화 (Milestones)
-🔹 V1: 기초 QA 프레임워크 구축 (Rule-based)
-시나리오 기반 TC 설계: 웹매뉴얼 챗봇 핵심 유저 시나리오 문서화 완료
+🔹 V1: QA 자동화 프레임워크 구축 (Foundation)
+시나리오 기반 TC 설계: ccNC 웹매뉴얼 챗봇의 핵심 유저 시나리오를 바탕으로 검증 항목 및 데이터셋 문서화
+API/UI 자동화 파이프라인 구축: Postman/Newman 기반 API 무결성 검증(report_V1.html) 및 Playwright 기반 UI 상태 전이 검증/결함 자동 캡처(01_TC-01.png 등) 체계 완성
 
-API 응답 무결성 검증: 서버 통신 로그 및 데이터 흐름을 추적하여 report_V1.html 자동 생성
+🔹 V2: RAG 파이프라인 도입 및 질적 개선 (RAG Evaluation)
+하드코딩(비즈니스 룰) 한계 극복: 기존 V1의 단순 규칙 기반(Rule-based) 응답 방식에서 벗어나, LangChain + OpenAI RAG 파이프라인을 도입하여 매뉴얼 맥락에 맞는 동적·고도화 응답 체계 구현
+RAG 품질 검증 & 감사 리포트: V1에서 구축한 자동화 파이프라인으로 V2 RAG 엔진(35개 TC)을 검증하여 최종 풀페이지 감사 리포트(99_final_audit_report_V2.png) 산출
+RAG 할루시네이션(환각) 차단:
+매뉴얼 영역을 벗어난 무관한 질의(Out-of-Domain)에 대한 환각 답변 완전 제거
+매뉴얼 내 제약 사항(Warnings) 안내 강화로 '미지원 기능' 오분류 최소화 (4건 ➡️ 1건으로 75% 감소)
 
-UI 자동화 & 증적 포착: Playwright를 활용해 상태 전이 검증 및 결함 구간 자동 스크린샷(01_TC-01.png 등) 저장
+🧪 V1 Baseline & Automation Architecture
+RAG 도입 전 베이스라인 측정 및 V1~V4 공통 QA 자동화 파이프라인 구축
 
-🔹 V2: RAG 파이프라인 구축 & 자동화 고도화 (Current)
-35/35 전체 TC 자동화 완료: API 통신 및 UI 풀페이지 감사 리포트(99_final_audit_report_V2.png) 캡처 성공
+1. Baseline 검증 계획 및 목표
+목적: 생성형 AI 챗봇 아키텍처에 RAG를 도입하기 전, 시스템의 기본 성능을 정량적으로 평가하고 향후 회귀 테스트의 기준점이 될 Baseline 품질 게이트 수립
 
-할루시네이션 극복: 무관한 질의(Out-of-Domain)에 대한 환각 답변을 완전히 제거하고, 미지원 기능 오분류 최소화 (4건 ➡️ 1건 감소)
+테스트 대상: GPT-4o-mini 기반의 차량 인포테인먼트 QA 목적 Baseline 시뮬레이터
+
+핵심 프롬프트 & 파라미터:
+
+System 페르소나: "너는 차량 인포테인먼트 비서야. 하이패스 이력이나 차량 정보에 대해 친절하고 아주 간결하게 답해줘."
+
+Temperature: 0.2 (답변의 일관성 및 결정론적 출력을 확보하기 위한 저온도 설정)
+
+검증 스코프: RAG 없이 내부 파라미터와 System 페르소나 제어만으로 ccNC 사용자 인풋에 대해 정확하고 일관된 답변을 도출하는지 확인
+
+2. Prompt Engineering & Dual-Routing
+System 페르소나: 차량 인포테인먼트 마스터 '브레이크 마스터'
+
+제어 요청 최적화: 단순 "켜줘/실행해줘" 요청 시 장황한 설명 없이 1문장 단축 응답으로 처리
+
+제약 조건(Warnings) 안내: 조건 초과 요청 시 '미지원'으로 오인하지 않고 정확한 제약 사항 안내
+
+Strict Out-of-Domain: 매뉴얼에 없는 질의는 *"죄송합니다. 해당 기능은 현재 지원하지 않습니다."*로 답변 고정
+
+FastAPI Dual-Routing:
+
+Priority 1 (정적 라우터): 특정 TC 검증용 HTTP 예외 코드(400, 403, 404, 500) 시뮬레이션
+
+Priority 2 (동적 와일드카드): 나머지 모든 REST API/Streamlit 요청을 V2 RAG 파이프라인으로 유연하게 처리
+
 
 🛠️ V2 RAG Engine Architecture
 현대 ccNC 웹매뉴얼 데이터 기반의 고도화된 RAG 파이프라인을 구축하여 환각 현상을 극복하고 정밀한 검증 환경을 구현했습니다.
