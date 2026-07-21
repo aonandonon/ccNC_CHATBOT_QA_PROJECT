@@ -33,3 +33,31 @@ ccNC_CHATBOT_QA_PROJECT/
 V2: 예외 시나리오 확장 및 LangChain / RAG 구조 기반 데이터 무결성 검증 추가
 V3-V4: RAG 할루시네이션(환각) 방지 시나리오 테스트 및 QA 자동화 파이프라인 고도화
 
+## 🛠️ V2 RAG Engine Architecture & Key Features
+
+현대 ccNC 웹 매뉴얼 데이터 기반의 **고도화된 RAG(Retrieval-Augmented Generation) 파이프라인**을 구축하여 환각(Hallucination) 현상을 극복하고 정밀한 검증 환경을 구현했습니다.
+
+### 1. Data Pipeline & Knowledge Base
+* **웹 매뉴얼 파싱**: ccNC 공식 웹 매뉴얼 107개 HTML의 `<p>`, `<li>` 태그를 정제하여 `parsed_ccnc_manual.json` 데이터셋 구축
+* **Context 보존 청킹 (Chunking Strategy)**: 일반적인 `TextSplitter` 사용 시 문맥 단절이 발생하는 문제를 방지하기 위해 **1개 카테고리/기능당 1개의 `Document`로 완벽 맵핑**
+  * 각 문서에 `카테고리명`, `상세 기능`, `주의 및 제약 사항(Warnings)`을 구조화하여 메타데이터와 함께 저장
+
+### 2. RAG Stack & Models
+| 구분 | 기술 스택 / 모델 | 역할 |
+|---|---|---|
+| **Framework** | LangChain (`langchain-openai`, `langchain-community`) | RAG 체인 파이프라인 구성 |
+| **Embedding** | `text-embedding-3-small` | 매뉴얼 문맥의 고성능 벡터화 |
+| **Vector DB** | `DocArrayInMemorySearch` | 메모리 기반의 초고속 유사도 검색 (`k=5`) |
+| **LLM** | OpenAI `gpt-4o-mini` (Temp: `0.2`) | 검색된 문맥 기반 답변 생성 |
+
+### 3. Prompt Engineering & Response Optimization
+* **페르소나 설정**: 차량 인포테인먼트 마스터 '브레이크 마스터' 지정
+* **제약 조건 및 예외 최적화**:
+  * **제어 요청 처리**: 단순 "켜줘/실행해줘" 요청 시 길고 장황한 설명 대신 핵심 단축 문구(1문장)로 즉시 응답
+  * **제약 조건(Warnings) 안내**: 사용자가 조건 초과 요청 시 '미지원'으로 오분류하지 않고 매뉴얼상의 정확한 제약 사항 제시
+  * **Strict Out-of-Domain**: 매뉴얼에 관련 정보가 전혀 없는 경우에만 *"죄송합니다. 해당 기능은 현재 지원하지 않습니다."* 문구 고정 출력
+
+### 4. FastAPI Dual-Routing Architecture
+* **정적 예외 라우터 (Priority 1)**: 특정 TC(TC-07, 12, 25, 31 등) 검증을 위한 HTTP 상태 코드(`400`, `403`, `404`, `500`) 시뮬레이션 엔드포인트 배치
+* **동적 와일드카드 라우터 (Priority 2)**: 나머지 모든 REST API 요청(`GET`, `POST`, `DELETE`) 및 Streamlit UI 요청(`/chat`)을 V2 RAG 파이프라인으로 유연하게 수용
+
